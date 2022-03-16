@@ -15,7 +15,7 @@ services:
     environment:
       - SERVERURL=auto 
       - SERVERPORT=51820 
-      - PEERS=3 
+      - PEERS=2
       - PEERDNS=auto 
       - INTERNAL_SUBNET=10.13.13.0 
       - ALLOWEDIPS=0.0.0.0/0 
@@ -26,4 +26,6 @@ services:
       - 51820:51820/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.forwarding=1
+      - net.ipv4.ip_forward=1
     restart: unless-stopped

@@ -3,24 +3,24 @@ version: "3.5"
 
 
 services:
-  wireguard:
-    container_name: wireguard-host
-    build:
-      context: project
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    cap_add:
-      - NET_ADMIN
-      - SYS_MODULE
-    volumes:
-      - ./config:/etc/wireguard
-      - /lib/modules:/lib/modules
-    ports:
-      - 51821:51820/udp
-    sysctls:
-      - net.ipv4.conf.all.src_valid_mark=1
-      - net.ipv6.conf.all.forwarding=1
-      - net.ipv4.ip_forward=1
+  # wireguard:
+  #   container_name: wireguard-host
+  #   build:
+  #     context: project
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   cap_add:
+  #     - NET_ADMIN
+  #     - SYS_MODULE
+  #   volumes:
+  #     - ./config:/etc/wireguard
+  #     - /lib/modules:/lib/modules
+  #   ports:
+  #     - 51820:51820/udp
+  #   sysctls:
+  #     - net.ipv4.conf.all.src_valid_mark=1
+  #     - net.ipv6.conf.all.forwarding=1
+  #     - net.ipv4.ip_forward=1
 
   wireguard2:
     container_name: wireguard2
@@ -34,15 +34,15 @@ services:
       - PGID=1000
       - TZ=Europe/London
       - SERVERURL=auto #optional
-      - SERVERPORT=51822 #optional
+      - SERVERPORT=51820 #optional
       - PEERS=1 #optional
       - PEERDNS=auto #optional
       - INTERNAL_SUBNET=10.13.13.0 #optional
       - ALLOWEDIPS=0.0.0.0/0 #optional
     volumes:
-      - ./config2:/config
+      - ./config:/config
       - /lib/modules:/lib/modules
     ports:
-      - 51822:51822/udp
+      - 51820:51820/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1

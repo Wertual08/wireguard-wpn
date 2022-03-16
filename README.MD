@@ -1,0 +1,2 @@
+wg genkey
+wg pubkey

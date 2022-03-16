@@ -1,0 +1,28 @@
+version: "3.5"
+
+
+
+services:
+  wireguard:
+    container_name: wireguard-host
+    build:
+      context: wireguard
+      dockerfile: Dockerfile
+    image: lscr.io/linuxserver/wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - SERVERURL=auto 
+      - SERVERPORT=51820 
+      - PEERS=3 
+      - PEERDNS=auto 
+      - INTERNAL_SUBNET=10.13.13.0 
+      - ALLOWEDIPS=0.0.0.0/0 
+    volumes:
+      - ./config:/config
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped

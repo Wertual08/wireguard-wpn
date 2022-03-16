@@ -6,26 +6,43 @@ services:
   wireguard:
     container_name: wireguard-host
     build:
-      context: wireguard
+      context: project
       dockerfile: Dockerfile
-    image: lscr.io/linuxserver/wireguard
+    restart: unless-stopped
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
-    environment:
-      - SERVERURL=auto 
-      - SERVERPORT=51820 
-      - PEERS=2
-      - PEERDNS=auto 
-      - INTERNAL_SUBNET=10.13.13.0 
-      - ALLOWEDIPS=0.0.0.0/0 
     volumes:
-      - ./config:/config
+      - ./config:/etc/wireguard
       - /lib/modules:/lib/modules
     ports:
-      - 51820:51820/udp
+      - 51821:51820/udp
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv6.conf.all.forwarding=1
       - net.ipv4.ip_forward=1
+
+  wireguard2:
+    container_name: wireguard2
+    image: linuxserver/wireguard:latest
     restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - SERVERURL=auto #optional
+      - SERVERPORT=51822 #optional
+      - PEERS=1 #optional
+      - PEERDNS=auto #optional
+      - INTERNAL_SUBNET=10.13.13.0 #optional
+      - ALLOWEDIPS=0.0.0.0/0 #optional
+    volumes:
+      - ./config2:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51822:51822/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1

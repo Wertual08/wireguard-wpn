@@ -21,6 +21,7 @@ services:
       - ALLOWEDIPS=0.0.0.0/0 
     volumes:
       - ./config:/config
+      - /lib/modules:/lib/modules
     ports:
       - 51820:51820/udp
     sysctls:
